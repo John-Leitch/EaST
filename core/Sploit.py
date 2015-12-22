@@ -5,6 +5,11 @@ import sys
 import json
 import logging
 
+#for random string
+from random import choice
+from string import ascii_letters
+from string import digits
+
 sys.path.append("./../core")
 
 
@@ -29,7 +34,7 @@ class Sploit():
         self.logger = logging.getLogger()
         self.connection = create_connection("ws://%s:%s" % (HOST, PORT), timeout=None, fire_cont_frame=True)
         return
-    
+
     def args(self, options={}):
         """
             This function get required options from server.
@@ -52,22 +57,22 @@ class Sploit():
             target is vulnerable or not.
         """
         return
-    
+
     def run(self):
         """
             The main function that does all of the magic.
             It returns 0 on failed and 1 on success.
         """
-        return 
+        return
 
     def log(self, message):
         """
             This function provides necessary routines
-            for logging any results of the exploit.            
+            for logging any results of the exploit.
         """
         self.send_message(message)
         return
-    
+
     def finish(self, is_successful):
         """
             This function finishes module execution
@@ -94,11 +99,11 @@ class Sploit():
             filename = "response_" + time.strftime("%b_%d_ %Y_%H-%M-%S", time.gmtime()) + ".html"
         if not os.path.exists(dirname):
             try:
-                os.makedirs(dirname) 
+                os.makedirs(dirname)
             except Exception, exception:
                 """
                 ! The kind of error sould be
-                managed with respect to 
+                managed with respect to
                 os version or type...
                 """
                 self.logger.error(
@@ -112,7 +117,7 @@ class Sploit():
             fd.write(filedata)
         except Exception:
             self.logger.error("An error has occured during writing output : <%s>" % (str(sys.exc_info()[1])))
-            return 0            
+            return 0
         fd.close()
         self.log("wrote to %s" % filepath)
         return 1
@@ -125,6 +130,9 @@ class Sploit():
         if is_successful is not None:
             self.connection.close()
 
+    def random_string(self, size=6, chars=ascii_letters + digits):
+        # you can change chars to digits or specify your string value
+        return ''.join(choice(chars) for _ in range(size))
 
 
 if __name__ == "__main__":
